@@ -27,8 +27,3 @@ easy_beer = beer_hash.each do |beer|
    Beer.create(cool_beer_hash)
 
 end
-
-# Beer.create(name: "Bud")
-
-# binding.pry
-
