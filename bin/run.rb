@@ -11,8 +11,7 @@ def username
 end
 
 session_user = find_user
-# puts "\e[H\e[2J"
-# puts "Welcome, #{session_user.name}! What would you like to do?"
+
 
 age_limiter(session_user)
 

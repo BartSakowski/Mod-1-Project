@@ -7,7 +7,7 @@ end
 
 def menu_prompt(session_user)
 
-  puts   "  ------------–MENU-–––---------
+  puts   "  \n------------–MENU-–––---------
   #1. Search beers by beer name
   #2. Search beers by ABV
   #3. Add beer(s) by beer id
@@ -15,6 +15,8 @@ def menu_prompt(session_user)
   #5. Delete a beer from your list.
   #6. Add rating to a beer.
   #7. Add a personal pairing to a beer.
+  #8. Add another user's beers to your list.
+
   <<<type 'exit' to end program>>>" 
   # session_user = User.find_or_create_by(name: username)
   user_input= gets.chomp
@@ -25,13 +27,14 @@ def menu_prompt(session_user)
     puts "Please enter a beer name"
     user_input = gets.chomp
     result = Beer.find_by(name: user_input)
-    puts "ID #{result.id}"
+    puts "\e[H\e[2J"
+    puts "ID: #{result.id}"
     puts "Name: #{result.name}"
     puts "Description: #{result.description}"
     puts "ABV: #{result.abv}"
     puts "Food Pairing: #{result.food_pairing}"
     
-    puts "What else would you like to do?"
+    puts "\nWhat else would you like to do?"
       menu_prompt(session_user)
 
   elsif user_input == "2" # Search beers by ABV. Returns beer description, ABV, and food pairing
@@ -41,7 +44,7 @@ def menu_prompt(session_user)
     user_input = user_input_chomp.to_f 
     result = Beer.where("abv == #{user_input}")
     result.each do |beer|
-    puts "ID #{beer.id}"
+    puts "ID: #{beer.id}"
     puts "Name: #{beer.name}"
     puts "Description: #{beer.description}"
     puts "ABV: #{beer.abv}"
@@ -109,6 +112,29 @@ def menu_prompt(session_user)
     puts "MMMM!! That looks like a good combo! :P"
     puts "What else would you like to do?"
       menu_prompt(session_user)
+
+
+  elsif user_input == "8" # Merge with another user
+    puts "Here are all the users:"
+    User.all.each do |user|
+     puts user.name
+    end
+    puts "Who's beer list did you want to merge with yours?"
+    user_input = gets.chomp
+    name = User.find_by(name: user_input)
+    important_id = name.id
+    
+    User_Beer.all.each do |user_beer_instance|
+      if user_beer_instance.user_id == important_id
+         User_Beer.create(user_id: session_user.id, beer_id: user_beer_instance.beer_id)
+        #  binding.pry
+      end
+    end
+
+    beer_list(session_user)
+    puts "What else would you like to do?"
+      menu_prompt(session_user)
+
 
   elsif user_input == "exit"
     puts "\e[H\e[2J"
