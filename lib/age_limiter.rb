@@ -14,8 +14,16 @@ def age_limiter(session_user)
   end
 end
 
-# if user.age == nil
-#   then
-#   age_limiter
-# else
-#   menu_prompt(session_user)
+
+
+# def prompter(session_user)
+#   User.all.each do |user|
+#     if user.name == session_user
+#       menu_prompt(session_user)
+#     elsif user.name == nil
+#       age_limiter(session_user)
+#     else
+#       puts "Oops"
+#     end
+#   end
+# end
