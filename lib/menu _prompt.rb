@@ -12,7 +12,7 @@ def menu_prompt(session_user)
   #9. Add another user's beers to your list
 
   <<<type 'exit' to end program>>>" 
-  # session_user = User.find_or_create_by(name: username)
+
   user_input= gets.chomp
 
 
@@ -28,12 +28,9 @@ def menu_prompt(session_user)
     puts "Description: #{result.description}"
     puts "ABV: #{result.abv}"
     puts "Food Pairing: #{result.food_pairing}"
-    
-    puts "<<<press 'enter' to continue>>>"
-    user_input = gets.chomp
-    puts "\e[H\e[2J"
-    puts "\nWhat else would you like to do?"
-      menu_prompt(session_user)
+
+    enter_to_continue
+    what_else(session_user)
 
   elsif user_input == "2" # Search beers by ABV. Returns beer description, ABV, and food pairing
     puts "\e[H\e[2J"
@@ -96,10 +93,8 @@ def menu_prompt(session_user)
     User_Beer.where("beer_id == #{user_input}").destroy_all
     puts "Here is your updated beer list:"
       beer_list(session_user)
-      puts "<<<press 'enter' to continue>>>"
-      user_input = gets.chomp
-      puts "What else would you like to do?"
-        menu_prompt(session_user)
+      enter_to_continue
+      what_else(session_user)
 
   elsif user_input == "7" # rate your beer
     puts "\e[H\e[2J"
@@ -149,11 +144,11 @@ def menu_prompt(session_user)
     enter_to_continue
     what_else(session_user)
 
-  elsif user_input == "exit"
+  elsif user_input == "exit" # text after exit
     puts "\e[H\e[2J"
     puts "See you soon!!"
 
-  else
+  else # incorrect input prompt
     puts "\e[H\e[2J"
     puts "Incorrect menu option. Please enter valid menu option"
     menu_prompt(session_user)
